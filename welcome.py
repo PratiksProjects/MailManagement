@@ -35,17 +35,19 @@ class welcome(QWidget):
         radiobutton = self.sender()
         self.current = radiobutton.value
         if radiobutton.isChecked():
-            print("Selected Value is %s" % (radiobutton.value))
+            #print("Selected Value is %s" % (radiobutton.value))
             if radiobutton.value == "id":
                 self.id_field.setReadOnly(False)
                 self.room_field.setReadOnly(True)
+                self.room_field.setText("")
             else:
                 self.room_field.setReadOnly(False)
                 self.id_field.setReadOnly(True)
+                self.id_field.setText("")
 
     def start_search(self):
         value = ""
         if(self.current == "id"):
-            print("id")
-        else:        
-            print("room")
+            print(self.id_field.text())
+        else:
+            print(self.room_field.text())
