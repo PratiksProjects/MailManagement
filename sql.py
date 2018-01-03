@@ -2,7 +2,7 @@
 import sqlite3
 from sqlite3 import Error
 
-class sql_fxn(self):
+class sql_fxn:
     def __init__(self, file_name):
         self.cur = self.connect_db(file_name).cursor()
 
@@ -40,8 +40,7 @@ class sql_fxn(self):
 
     def update_roster(self, arr):
         return self.cursor.executemany("""INSERT OR REPLACE INTO Roster
-        ('BuzzcardNumber', 'FirstName', 'LastName', 'RoomNumber', 'Date',
-        'CurrentResident') VALUES (?, ?, ?, ?, ?, ?)""", arr)
+        ('BuzzcardNumber', 'FirstName', 'LastName', 'RoomNumber') VALUES (?, ?, ?, ?,)""", arr)
 
-    def close(self, conn)
+    def close(self, conn):
         conn.close()
