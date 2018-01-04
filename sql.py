@@ -4,7 +4,8 @@ from sqlite3 import Error
 
 class sql_fxn:
     def __init__(self, file_name):
-        self.cur = self.connect_db(file_name).cursor()
+        self.conn = self.connect_db(file_name)
+        self.cur = self.conn.cursor()
 
     def connect_db(self,file_name):
         try:
@@ -36,11 +37,15 @@ class sql_fxn:
         return cur.fetchall()
 
     def check_out_all(self):
-        return self.cursor.execute("UPDATE Roster SET CurrentResident = 0")
+        check = self.cur.execute("UPDATE Roster SET CurrentResident = 0")
+        self.conn.commit()
+        return check
 
     def update_roster(self, arr):
-        return self.cursor.executemany("""INSERT OR REPLACE INTO Roster
-        ('BuzzcardNumber', 'FirstName', 'LastName', 'RoomNumber') VALUES (?, ?, ?, ?,)""", arr)
+        check = self.cur.executemany("""INSERT OR REPLACE INTO Roster
+        ('BuzzcardNumber', 'FirstName', 'LastName', 'RoomNumber', 'Date') VALUES (?, ?, ?, ?, ?)""", arr)
+        self.conn.commit()
+        return check
 
-    def close(self, conn):
-        conn.close()
+    def close(self):
+        self.conn.close()
